@@ -1,0 +1,1254 @@
+/* ============================================================
+   学习地图 —— 视觉规范
+   一张「纸上的知识地图」：暖纸底、墨色字、一条靛蓝重点色、
+   掌握度用从灰到深绿的连续色阶表达。
+   ============================================================ */
+
+:root {
+  --paper: #f6f3ec;
+  --paper-2: #efeae0;
+  --card: #fffdf8;
+  --card-2: #faf7f0;
+
+  --ink: #1b1a16;
+  --ink-2: #3d3831;
+  --dim: #8a8274;
+
+  --line: #e6dfd0;
+  --line-2: #efe9dd;
+
+  --accent: #3a56c4;
+  --accent-2: #e9edfb;
+
+  /* 两个端点色：灰 = 完全不会，深绿 = 完全掌握。中间用 OKLab 连续插值 */
+  --kp-void: #8f8778;
+  --kp-full: #17643f;
+  --due: #b8482a;
+
+  --shadow-1: 0 1px 2px rgb(27 26 22 / 0.04), 0 2px 10px -4px rgb(27 26 22 / 0.08);
+  --shadow-2: 0 2px 4px rgb(27 26 22 / 0.05), 0 20px 44px -20px rgb(27 26 22 / 0.28);
+
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1100px 520px at 12% -8%, #fffdf8 0%, rgb(255 253 248 / 0) 62%),
+    radial-gradient(900px 480px at 92% 0%, #f2f6f1 0%, rgb(242 246 241 / 0) 55%),
+    var(--paper);
+}
+
+::selection {
+  background: var(--accent-2);
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+
+/* ---------------- 页头 ---------------- */
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+  padding: 28px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 13px;
+  color: #eef7f1;
+  background: linear-gradient(150deg, #2c7a53 0%, #17643f 55%, #124d31 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 6px 16px -8px rgb(23 100 63 / 0.7);
+}
+
+.kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.brand h1 {
+  margin: 2px 0 0;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 12px;
+  color: var(--ink-2);
+  box-shadow: var(--shadow-1);
+}
+
+.chip b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.sw {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---------------- 控件 ---------------- */
+
+.tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: var(--shadow-1);
+}
+
+.tabs button {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dim);
+  padding: 6px 15px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.tabs button:hover {
+  color: var(--ink);
+}
+
+.tabs button[aria-selected="true"] {
+  background: var(--ink);
+  color: var(--card);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgb(27 26 22 / 0.28);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border: 1px solid var(--ink);
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--card);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -8px rgb(27 26 22 / 0.6);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn.ghost {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--line);
+  font-weight: 500;
+  box-shadow: var(--shadow-1);
+}
+
+.btn.sm {
+  padding: 6px 12px;
+  font-size: 12.5px;
+}
+
+.link {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- 布局 ---------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 20px;
+  align-items: start;
+  margin-top: 22px;
+}
+
+@media (max-width: 1080px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.stack {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* ---------------- 卡片 ---------------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-1);
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.card .lead {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 620;
+  letter-spacing: -0.005em;
+}
+
+.cap {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.banner {
+  margin-top: 14px;
+  padding: 9px 13px;
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in oklab, var(--due) 32%, var(--line));
+  background: color-mix(in oklab, var(--due) 7%, var(--card));
+  color: color-mix(in oklab, var(--due) 78%, var(--ink));
+  font-size: 12.5px;
+}
+
+/* ---------------- 时间旅行 ---------------- */
+
+.travel {
+  display: grid;
+  grid-template-columns: minmax(120px, auto) 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 11px 14px;
+  margin: 0 0 16px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-md);
+  background: var(--card-2);
+}
+
+.travel .when {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.travel .when b {
+  font-size: 13px;
+  font-weight: 620;
+}
+
+.travel .when span {
+  font-size: 11px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.travel .when b[data-future="true"] {
+  color: var(--accent);
+}
+
+.travel .slider {
+  display: grid;
+  gap: 3px;
+}
+
+.travel .scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+  padding: 0 2px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--paper-2), var(--kp-void) 55%, var(--kp-full));
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  box-shadow: 0 1px 4px rgb(27 26 22 / 0.3);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--paper-2);
+}
+
+input[type="range"]::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--kp-void);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--ink);
+}
+
+/* ---------------- 知识地图（泳道） ---------------- */
+
+.map {
+  display: grid;
+  gap: 22px;
+}
+
+.lane-group {
+  display: grid;
+  gap: 10px;
+}
+
+.lane-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.root-node {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  max-width: 100%;
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--kp-void);
+  border-radius: 9px;
+  background: var(--card-2);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.14s ease, box-shadow 0.14s ease;
+}
+
+.root-node:hover {
+  background: var(--card);
+  box-shadow: var(--shadow-1);
+}
+
+.root-node .rt {
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+}
+
+.root-node .rv {
+  font-size: 11px;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.root-node[data-new="true"] {
+  border-style: dashed;
+}
+
+.root-node[data-selected="true"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.lane-count {
+  font-size: 11px;
+  color: var(--dim);
+}
+
+.lanes {
+  display: grid;
+  gap: 8px;
+  padding-left: 4px;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: 198px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.lane-points {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-left: 15px;
+  min-height: 32px;
+}
+
+.lane-points::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 11px;
+  height: 1px;
+  background: var(--line);
+}
+
+.node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  border: 1px solid rgb(255 255 255 / 0.26);
+  border-radius: 10px;
+  color: #f7fbf8;
+  text-align: left;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    0 1px 2px rgb(27 26 22 / 0.14);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, opacity 0.14s ease;
+}
+
+.node:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.26),
+    0 10px 22px -12px rgb(27 26 22 / 0.55);
+  z-index: 3;
+}
+
+.node .t {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.node .v {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.node.chap {
+  height: 52px;
+  padding: 6px 11px;
+}
+
+.node.chap .t {
+  font-size: 12.5px;
+  font-weight: 620;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+}
+
+.node.leaf {
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  max-width: 200px;
+  height: 32px;
+  padding: 4px 9px;
+}
+
+.node.leaf .t {
+  font-size: 11px;
+}
+
+.node.leaf .v {
+  font-size: 9.5px;
+  opacity: 0.8;
+}
+
+.node[data-new="true"] {
+  border: 1px dashed color-mix(in oklab, var(--kp-void) 55%, transparent);
+  background: color-mix(in oklab, var(--card-2) 70%, transparent);
+  color: var(--dim);
+  box-shadow: none;
+}
+
+.node[data-new="true"]:hover {
+  border-color: var(--kp-void);
+  background: var(--card-2);
+}
+
+.node[data-new="true"] .v {
+  opacity: 0.7;
+}
+
+.node[data-selected="true"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-2);
+  z-index: 4;
+}
+
+.node[data-due="true"]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  border: 1.5px solid var(--due);
+  animation: breathe 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.node.leaf[data-due="true"]::after {
+  inset: -3px;
+  border-radius: 12px;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-2);
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.legend .bar {
+  width: 132px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--kp-void), var(--kp-full));
+  box-shadow: inset 0 0 0 1px rgb(27 26 22 / 0.06);
+}
+
+.legend .sep {
+  width: 1px;
+  height: 12px;
+  background: var(--line);
+  margin: 0 6px;
+}
+
+.legend i.key {
+  width: 12px;
+  height: 9px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.legend i.key.dashed {
+  border: 1px dashed var(--kp-void);
+  background: transparent;
+}
+
+.legend i.key.ring {
+  border: 1.5px solid var(--due);
+  border-radius: 4px;
+  background: transparent;
+}
+
+/* ---------------- 知识点详情 ---------------- */
+
+.detail-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.gauge {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  flex: none;
+}
+
+.gauge svg {
+  display: block;
+  transform: rotate(-90deg);
+}
+
+.gauge .gv {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.gauge .gv small {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-left: 1px;
+}
+
+.detail-title {
+  min-width: 0;
+}
+
+.detail-title h3 {
+  margin: 0 0 3px;
+  font-size: 16.5px;
+  font-weight: 630;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.detail-title .sub {
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.metric {
+  margin-top: 11px;
+}
+
+.metric .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  margin-bottom: 5px;
+}
+
+.metric .row b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 620;
+  color: var(--ink);
+}
+
+.metric .track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+
+.metric .track > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.due-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  background: var(--card-2);
+  border: 1px solid var(--line-2);
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+.due-line b {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.due-line[data-over="true"] {
+  border-color: color-mix(in oklab, var(--due) 30%, var(--line-2));
+  background: color-mix(in oklab, var(--due) 6%, var(--card));
+}
+
+.due-line[data-over="true"] b {
+  color: var(--due);
+}
+
+.hint {
+  margin-top: 14px;
+  padding-left: 11px;
+  border-left: 2px solid var(--line);
+  font-size: 11.8px;
+  line-height: 1.65;
+  color: var(--dim);
+}
+
+.detail-actions {
+  margin-top: 16px;
+}
+
+.empty {
+  padding: 10px 0;
+  font-size: 12.5px;
+  color: var(--dim);
+}
+
+/* ---------------- 计划表 ---------------- */
+
+.plan {
+  --rail: 92px;
+  position: relative;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan::before {
+  content: "";
+  position: absolute;
+  left: var(--rail);
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--line);
+}
+
+.slot {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  align-items: start;
+  padding: 7px 0;
+}
+
+.slot .time {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--dim);
+  padding-top: 4px;
+  letter-spacing: 0.01em;
+}
+
+.slot .body {
+  position: relative;
+  padding: 0 0 0 20px;
+}
+
+.slot .body::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--line);
+}
+
+.slot[data-kind="review"] .body::before {
+  border-color: var(--due);
+}
+
+.slot[data-kind="learn"] .body::before {
+  border-color: var(--kp-full);
+}
+
+.slot[data-kind="break"] .body::before {
+  border-color: var(--line-2);
+  background: var(--line-2);
+}
+
+.slot .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.slot .why {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--dim);
+  line-height: 1.55;
+}
+
+.slot[data-kind="break"] .title {
+  font-weight: 500;
+  color: var(--dim);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--dim);
+}
+
+.tag.review {
+  color: var(--due);
+  border-color: color-mix(in oklab, var(--due) 32%, var(--line));
+  background: color-mix(in oklab, var(--due) 7%, var(--card));
+}
+
+.tag.learn {
+  color: var(--kp-full);
+  border-color: color-mix(in oklab, var(--kp-full) 28%, var(--line));
+  background: color-mix(in oklab, var(--kp-full) 7%, var(--card));
+}
+
+/* ---------------- 折线 ---------------- */
+
+.chart-wrap {
+  margin-top: 2px;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--dim);
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+
+/* ---------------- 做题 ---------------- */
+
+.quiz {
+  scroll-margin-top: 20px;
+}
+
+.quizhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.quiz .detail-title h3 {
+  font-size: 15.5px;
+}
+
+.qitem {
+  padding: 14px 0;
+  border-top: 1px solid var(--line-2);
+}
+
+.qitem:first-of-type {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+.stem {
+  display: flex;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 550;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.stem .no {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  margin-top: 1px;
+  border-radius: 6px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 10.5px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.opts {
+  display: grid;
+  gap: 6px;
+}
+
+.opt {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 12.8px;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.13s ease, background 0.13s ease, transform 0.1s ease;
+}
+
+.opt b {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 10.5px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.opt:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+  background: color-mix(in oklab, var(--accent) 3%, var(--card));
+}
+
+.opt[data-picked="true"] {
+  border-color: var(--accent);
+  background: var(--accent-2);
+}
+
+.opt[data-picked="true"] b {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--card);
+}
+
+.opt[data-state="right"] {
+  border-color: color-mix(in oklab, var(--kp-full) 45%, var(--line));
+  background: color-mix(in oklab, var(--kp-full) 8%, var(--card));
+}
+
+.opt[data-state="right"] b {
+  border-color: color-mix(in oklab, var(--kp-full) 45%, var(--line));
+  color: var(--kp-full);
+  background: var(--card);
+}
+
+.opt[data-state="wrong"] {
+  border-color: color-mix(in oklab, var(--due) 45%, var(--line));
+  background: color-mix(in oklab, var(--due) 8%, var(--card));
+}
+
+.opt[data-state="wrong"] b {
+  border-color: color-mix(in oklab, var(--due) 45%, var(--line));
+  color: var(--due);
+  background: var(--card);
+}
+
+.opt:disabled {
+  cursor: default;
+}
+
+.blank {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.blank:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-2);
+}
+
+.explain {
+  margin-top: 9px;
+  padding-left: 11px;
+  border-left: 2px solid var(--line);
+  font-size: 11.8px;
+  line-height: 1.65;
+  color: var(--dim);
+}
+
+.explain[data-right="true"] {
+  border-color: color-mix(in oklab, var(--kp-full) 55%, var(--line));
+  color: color-mix(in oklab, var(--kp-full) 82%, var(--ink));
+}
+
+.explain[data-right="false"] {
+  border-color: color-mix(in oklab, var(--due) 55%, var(--line));
+  color: color-mix(in oklab, var(--due) 85%, var(--ink));
+}
+
+.quizfoot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.quizerr {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in oklab, var(--due) 30%, var(--line));
+  background: color-mix(in oklab, var(--due) 6%, var(--card));
+  color: color-mix(in oklab, var(--due) 85%, var(--ink));
+  font-size: 12.5px;
+}
+
+.result {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-2);
+}
+
+.result .row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  margin-bottom: 6px;
+  color: var(--ink-2);
+}
+
+.result .row b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.delta {
+  margin-left: 7px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.delta[data-up="true"] {
+  color: var(--kp-full);
+  background: color-mix(in oklab, var(--kp-full) 10%, transparent);
+}
+
+.delta[data-up="false"] {
+  color: var(--due);
+  background: color-mix(in oklab, var(--due) 10%, transparent);
+}
+
+/* ---------------- 启动占位 ---------------- */
+
+.boot {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  min-height: 70vh;
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.boot .mark {
+  width: 44px;
+  height: 44px;
+  animation: float 1.6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .wrap {
+    padding: 0 16px 64px;
+  }
+  .masthead {
+    padding-top: 20px;
+  }
+  .brand h1 {
+    font-size: 19px;
+  }
+  .card {
+    padding: 16px;
+  }
+}

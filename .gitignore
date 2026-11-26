@@ -1,0 +1,31 @@
+﻿# 依赖与构建产物
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# 本地数据（学习记录、题库缓存、读本）
+.data/
+web/.data/
+
+# 密钥
+.env
+.env*.local
+web/.env.local
+web/.env*.local
+
+# 截图与录屏中间产物（成片 演示视频.mp4 保留在根目录）
+shots/
+.npm-cache/
+shots/demo/frames/
+shots/demo/profile/
+shots/demo/*.mp4.tmp
+shots/prof-*/
+shots/tunnel*.log*
+
+# 工具与临时文件
+cd.exe
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+{
+  "name": "study-map",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3021",
+    "build": "next build",
+    "start": "next start -p 3021",
+    "test": "node --import ./scripts/ts-resolve.mjs --test --test-isolation=none src/lib/color.test.ts src/lib/plan.test.ts src/lib/engine.test.ts src/lib/sprint.test.ts src/lib/docs.test.ts",
+    "dev:sandbox": "node scripts/dev-inprocess.mjs",
+    "gen:quiz": "node --import ./scripts/ts-resolve.mjs scripts/gen-questions.mjs",
+    "selftest:ai": "node scripts/ai-probe.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^16.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.0"
+  }
+}

@@ -1,0 +1,22 @@
+/* 成绩块（嵌在卡片里，不再自带卡片边框） */
+
+.score {
+  display: grid;
+  gap: 6px;
+}
+
+.score-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.score-top b {
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.score .chart-wrap {
+  margin-top: 2px;
+}

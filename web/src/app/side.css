@@ -1,0 +1,20 @@
+/* 侧栏考点树：收起的章 */
+
+.side-chap .chev {
+  display: inline-block;
+  width: 12px;
+  margin-right: 2px;
+  color: var(--dim);
+  font-size: 12px;
+  text-align: center;
+}
+
+.side-chap[data-open='true'] .chev {
+  color: var(--ink);
+}
+
+.side-chap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
