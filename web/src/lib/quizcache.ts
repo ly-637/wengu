@@ -10,14 +10,22 @@
 
 import { readJSON, writeJSON } from './kv'
 import type { QuizItem } from './quizbank'
+import seedCache from './seed/quiz-cache.json'
 
 const KEY = 'quiz-cache'
 
 type Cache = Record<string, QuizItem[]>
 
+/**
+ * 预生成题库：仓库里带了一份（`src/lib/seed/quiz-cache.json`，114 道），
+ * 线上第一次没有远端数据时直接用这份，保证「点考点 → 考我 3 题」永远是秒开。
+ */
+const SEED = seedCache as Cache
+
 export async function readCache(): Promise<Cache> {
   const parsed = await readJSON<Cache>(KEY)
-  return parsed && typeof parsed === 'object' ? parsed : {}
+  if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) return parsed
+  return SEED
 }
 
 export async function writeCache(kpId: string, items: QuizItem[]): Promise<void> {
